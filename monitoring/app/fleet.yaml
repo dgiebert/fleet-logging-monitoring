@@ -44,29 +44,31 @@ dependsOn:
 targetCustomizations:
 - name: rke2
   helm:
-    rke2Proxy:
-      enabled: true
-    rke2ControllerManager:
-      enabled: true
-    rke2IngressNginx:
-      enabled: true
-    rke2Scheduler:
-      enabled: true
-    rke2Etcd:
-      enabled: true
+    values:
+      rke2Proxy:
+        enabled: true
+      rke2ControllerManager:
+        enabled: true
+      rke2IngressNginx:
+        enabled: true
+      rke2Scheduler:
+        enabled: true
+      rke2Etcd:
+        enabled: true
   clusterSelector:
     matchLabels:
       provider.cattle.io: rke2
 - name: k3s
   helm:
-    k3sServer:
-      enabled: true
-    k3sControllerManager:
-      enabled: true
-    k3sScheduler:
-      enabled: true
-    k3sProxy:
-      enabled: true
+    values:
+      k3sServer:
+        enabled: true
+      k3sControllerManager:
+        enabled: true
+      k3sScheduler:
+        enabled: true
+      k3sProxy:
+        enabled: true
   clusterSelector:
     matchLabels:
       provider.cattle.io: k3s
