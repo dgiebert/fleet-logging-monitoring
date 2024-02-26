@@ -1,0 +1,59 @@
+defaultNamespace: cattle-logging-system
+
+namespaceLabels:
+  pod-security.kubernetes.io/enforce: restricted
+  pod-security.kubernetes.io/enforce-version: latest
+  pod-security.kubernetes.io/audit: restricted
+  pod-security.kubernetes.io/audit-version: latest
+  pod-security.kubernetes.io/warn: restricted
+  pod-security.kubernetes.io/wrn-version: latest
+
+helm:
+  releaseName: rancher-logging
+  chart: rancher-logging
+  repo: https://charts.rancher.io
+  version: 103.0.3+up45.31.1
+  values:
+    fluentd:
+      resources:
+        limits:
+          cpu: '2'
+          memory: 1000M
+        requests:
+          cpu: 500m
+          memory: 500M
+    monitoring:
+      serviceMonitor:
+        enabled: true
+labels:
+  app: rancher-logging
+
+# Check https://fleet.rancher.io/ref-fleet-yaml
+dependsOn:
+  - selector:
+      matchLabels:
+        app: rancher-logging-crd
+  - selector:
+      matchLabels:
+        app: rancher-monitoring-crd
+
+# Correctly deploy extractors for k3s and rke2
+targetCustomizations:
+- name: rke2
+  helm:
+    values:
+      additionalLoggingSources:
+          rke2:
+            enabled: true
+  clusterSelector:
+    matchLabels:
+      provider.cattle.io: rke2
+- name: k3s
+  helm:
+    values:
+      additionalLoggingSources:
+          k3s:
+            enabled: true
+  clusterSelector:
+    matchLabels:
+      provider.cattle.io: k3s
