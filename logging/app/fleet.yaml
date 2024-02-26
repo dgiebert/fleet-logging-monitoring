@@ -22,6 +22,7 @@ helm:
         requests:
           cpu: 500m
           memory: 500M
+    systemdLogPath: /var/log/journal
     monitoring:
       serviceMonitor:
         enabled: true
