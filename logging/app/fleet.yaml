@@ -12,7 +12,7 @@ helm:
   releaseName: rancher-logging
   chart: rancher-logging
   repo: https://charts.rancher.io
-  version: 103.0.0+up3.17.10
+  version: 104.0.0+up4.4.0
   values:
     fluentd:
       resources:
